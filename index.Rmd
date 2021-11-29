@@ -1,0 +1,16 @@
+---
+title: Verifica nuovo set di serie omogeneizzate di temperatura e precipitazione
+date: "`r Sys.Date()`"
+author: Guido Fioravanti
+output: html_document
+---
+
+#### Anomalie annuali di temperatura
+
+Risultati per la:
+
+- [temperatura massima](./grafici_anomalie_annuali/tmax/grafico.html)
+
+- [temperatura minima](./grafici_anomalie_annuali/tmin/grafico.html)
+
+- [temperatura media](./grafici_anomalie_annuali/tmean/grafico_tmean.html).
