@@ -14,3 +14,32 @@ Risultati per la:
 - [temperatura minima](./grafici_anomalie_annuali/tmin/grafico.html)
 
 - [temperatura media](./grafici_anomalie_annuali/tmean/grafico_tmean.html).
+
+
+#### Estremi ETCCDI
+
+- [csdi](./estremi/csdi/csdi.html)
+
+- [fd](./estremi/fd/fd.html)
+
+- [su](./estremi/su/su.html)
+
+- [tn10p](./estremi/tn10p/tn10p.html)
+
+- [tn90p](./estremi/tn90p/tn90p.html)
+
+- [tnn](./estremi/tnn/tnn.html)
+
+- [tnx](./estremi/tnx/tnx.html)
+
+- [tr](./estremi/tr/tr.html)
+
+- [tx10p](./estremi/tx10p/tx10p.html)
+
+- [tx90p](./estremi/tx90p/tx90p.html)
+
+- [txn](./estremi/txn/txn.html)
+
+- [txx](./estremi/txx/txx.html)
+
+- [wsdi](./estremi/wsdi/wsdi.html)

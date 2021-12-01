@@ -1,0 +1,73 @@
+SiteID;SiteName;SiteCode;Latitude;Longitude;Elevation;regione;id
+6691;PASSO ROLLE;160210;46.3;11.783;2006;aeronautica;aeronautica_6691
+6692;PAGANELLA;160220;46.15;11.033;2129;aeronautica;aeronautica_6692
+6693;DOBBIACO;160330;46.733;12.217;1226;aeronautica;aeronautica_6693
+6697;TARVISIO;160400;46.5;13.583;778;aeronautica;aeronautica_6697
+6707;TORINO/CASELLE;160590;45.217;7.65;287;aeronautica;aeronautica_6707
+6709;TORINO/BRIC DELLA C;160610;45.033;7.733;710;aeronautica;aeronautica_6709
+6718;MILANO/LINATE;160800;45.433;9.283;103;aeronautica;aeronautica_6718
+6720;PIACENZA;160840;44.917;9.733;138;aeronautica;aeronautica_6720
+6721;BRESCIA/GHEDI;160880;45.417;10.283;97;aeronautica;aeronautica_6721
+6723;VERONA/VILLAFRANCA;160900;45.383;10.867;68;aeronautica;aeronautica_6723
+6729;TREVISO/ISTRANA;160980;45.683;12.1;46;aeronautica;aeronautica_6729
+6730;TREVISO/S. ANGELO;160990;45.65;12.183;23;aeronautica;aeronautica_6730
+6733;VENEZIA/TESSERA;161050;45.5;12.333;6;aeronautica;aeronautica_6733
+6769;RIMINI;161490;44.033;12.617;13;aeronautica;aeronautica_6769
+6771;CAPO MELE;161530;43.95;8.167;221;aeronautica;aeronautica_6771
+6779;AREZZO;161720;43.467;11.85;249;aeronautica;aeronautica_6779
+6782;FRONTONE;161790;43.517;12.733;574;aeronautica;aeronautica_6782
+6794;GROSSETO;162060;42.75;11.067;7;aeronautica;aeronautica_6794
+6797;VITERBO;162160;42.433;12.05;308;aeronautica;aeronautica_6797
+6803;VIGNA DI VALLE;162240;42.083;12.217;266;aeronautica;aeronautica_6803
+6817;ROMA/CIAMPINO;162390;41.783;12.583;105;aeronautica;aeronautica_6817
+6826;CAMPOBASSO;162520;41.567;14.65;807;aeronautica;aeronautica_6826
+6827;GRAZZANISE;162530;41.05;14.067;10;aeronautica;aeronautica_6827
+6834;AMENDOLA;162610;41.533;15.717;60;aeronautica;aeronautica_6834
+6841;PONZA;162800;40.917;12.95;185;aeronautica;aeronautica_6841
+6851;GIOIA DEL COLLE;163120;40.767;16.933;350;aeronautica;aeronautica_6851
+6856;BRINDISI;163200;40.65;17.95;10;aeronautica;aeronautica_6856
+6865;MONTE SCURO;163440;39.333;16.4;1720;aeronautica;aeronautica_6865
+6869;S. MARIA DI LEUCA;163600;39.817;18.35;112;aeronautica;aeronautica_6869
+6874;USTICA;164000;38.7;13.183;251;aeronautica;aeronautica_6874
+6881;MESSINA;164200;38.2;15.55;51;aeronautica;aeronautica_6881
+6883;TRAPANI/BIRGI;164290;37.917;12.5;14;aeronautica;aeronautica_6883
+6897;PANTELLERIA;164700;36.817;11.967;170;aeronautica;aeronautica_6897
+6901;COZZO SPADARO;164800;36.683;15.133;51;aeronautica;aeronautica_6901
+6919;DECIMOMANNU;165460;39.35;8.967;28;aeronautica;aeronautica_6919
+6922;CAPO BELLAVISTA;165500;39.933;9.717;150;aeronautica;aeronautica_6922
+6923;CAGLIARI/ELMAS;165600;39.25;9.067;5;aeronautica;aeronautica_6923
+39;Plata;20900MS;46.82249293;11.17808117;1118;bolzano;bolzano_39
+176;Fi� allo Sciliar;75600MS;46.51340578;11.50595194;804;bolzano;bolzano_176
+203;Bolzano;83200MS;46.49768516;11.31283145;246;bolzano;bolzano_203
+223;Sesto;91500MS;46.70305366;12.34996391;1490;bolzano;bolzano_223
+12702;Bologna Urbana;0811842;44.500754;11.328789;44;emiliaromagna;emiliaromagna_12702
+14246;Ferrara urbana;OPENDATA114;44.8325;11.62114;9;emiliaromagna;emiliaromagna_14246
+240;Roma Macao;111600;41.9039;12.5072;56;lazio;lazio_240
+276;Civitavecchia;199700;42.0967;11.7853;7;lazio;lazio_276
+289;Latina;201600;41.4714;12.9058;17;lazio;lazio_289
+388;Monte Terminillo;481000;42.4556;12.9928;1594;lazio;lazio_388
+701;Ancona Torrette;701;43.610954;13.449807;5;marche;marche_701
+25;Ascoli Piceno;25;42.852242;13.651516;78;marche;marche_25
+104;Urbino;104;43.723278;12.636861;471;marche;marche_104
+108;Pergola;108;43.568672;12.844062;242;marche;marche_108
+109;Fonte Avellana;109;43.471085;12.726417;690;marche;marche_109
+110;Jesi;110;43.531944;13.229972;100;marche;marche_110
+123;Arcevia;123;43.497452;12.936685;535;marche;marche_123
+605;Fabriano;605;43.330273;12.904034;354;marche;marche_605
+608;Cingoli;608;43.36224;13.19233;790;marche;marche_608
+703;Amatrice;703;42.625565;13.296259;954;marche;marche_703
+11825;Sciacca;191400;37.511873;13.126871;110;sicilia;sicilia_11825
+11883;Mineo;193060;37.264436;14.690246;459;sicilia;sicilia_11883
+11898;Messina Istituto Geofisico;193380;38.200472;15.554106;31;sicilia;sicilia_11898
+11933;Ciminna;19660;37.891796;13.559357;467;sicilia;sicilia_11933
+11942;Palermo Osservatorio Astronomico;19880;38.109161;13.350685;27;sicilia;sicilia_11942
+25;Vallombrosa;TOS01000901;43.731367;11.556821;1050;toscana;toscana_25
+55;Prato Universita';TOS01001205;43.885556;11.099213;64;toscana;toscana_55
+72;S. Miniato (Cimitero);TOS01001491;43.684031;10.831479;42;toscana;toscana_72
+76;Castelmartini;TOS01001629;43.817839;10.829129;22;toscana;toscana_76
+78;Volterra;TOS01001664;43.408995;10.862233;372;toscana;toscana_78
+6639;Pejo Frana;366;46.364472;10.678177;1580;trentino;trentino_6639
+6640;Cavalese (meteotrentino);367;46.284762;11.451794;958;trentino;trentino_6640
+6509;Centa;9;45.970184;11.234123;815;trentino;trentino_6509
+6511;Pontarso;14;46.115589;11.494414;925;trentino;trentino_6511
+6564;Sant'Orsola;139;46.107105;11.3022;930;trentino;trentino_6564

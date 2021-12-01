@@ -1,0 +1,230 @@
+---
+title: Eventi estremi
+date: "`r Sys.Date()`"
+author: Guido Fioravanti
+affiliation: ISPRA
+---
+
+<br>
+
+Calcolo degli eventi estremi (indici ETCCDI) utilizzando il nuovo set di serie di temperatura giornaliera omogeneizzate.
+
+```{r intro, echo=FALSE,message=FALSE,warning=FALSE,include=FALSE,error=FALSE}
+#30 novembre 2021.
+#Questo programma calcola le anomalie per ciascuna stazione e le anomalie per l'Italia. 
+#Tutte le serie del file di input vengono utilizzate. Il programma non effettua nessun criterio di selezione delle serie.
+#Le serie di input vengono selezionate dal programma calcolaExtremi.R.
+rm(list=objects())
+library("zyp")
+library("tidyverse")
+library("climatologici")
+library("regioniItalia")
+library("guido")
+library("visdat")
+library("echarts4r")
+library("knitr")
+library("DT")
+library("leaflet")
+options(error=recover)
+  
+knitr::opts_chunk$set(echo=FALSE,message=FALSE,warning=FALSE,include=FALSE,error=FALSE,fig.width = 12,fig.height = 10)
+  
+#anni per il calcolo del climatologico
+climYS<-1961
+climYE<-1990
+  
+
+######################################################    
+#Funzione per il calcolo della media
+#################################
+media<-function(x,toll){
+    
+    length(which(is.na(x))) ->numero.na
+    if(numero.na) if(numero.na>toll) return(NA)
+    
+    return(round(mean(x,na.rm=TRUE),2))
+  
+}#funzione media
+
+
+
+################## Lettura dati
+nome.file<-list.files(pattern="^risultati.+csv$")
+stopifnot(length(nome.file)==1)
+read_delim(nome.file,delim=";",col_names = TRUE,col_types = cols(.default = col_number()))->dati
+
+#annoI e annoF vengono desunti dal file di dati
+annoI<-min(unique(dati$yy))
+annoF<-max(unique(dati$yy))
+
+creaCalendario(annoI,annoF) %>%
+  dplyr::select(yy) %>%
+  dplyr::distinct(yy)->calendario_anni
+
+#NOME DELL'INDICE
+str_remove(str_remove(nome.file,"^r.+_"),"\\.csv$")->indice
+
+#visualizzazione complessiva dati
+vis_miss(dati %>% dplyr::select(-yy),sort_miss = TRUE)+
+  theme(axis.text.x.top = element_text(angle=90))
+
+#quanti dati per anno?
+dati %>%
+  gather(key="id",value="value",-yy) %>%
+  mutate(flag=ifelse(is.na(value),0,1)) %>%
+  group_by(yy) %>%
+  summarise(numero_stazioni=sum(flag)) %>%
+  ungroup()->numeroStazioniPerAnno
+```
+
+<br><br>
+
+### Numero di stazioni per anno
+
+```{r skim,include=TRUE}
+skimr::skim(numeroStazioniPerAnno,numero_stazioni)
+```
+
+```{r numeroStazioni,include=TRUE}
+e_chart(numeroStazioniPerAnno,x=yy) %>%
+  e_bar(serie=numero_stazioni,color="blue") %>%
+  e_tooltip(trigger="item") %>%
+  e_x_axis(serie=yy) %>%
+  e_y_axis(name="Numero stazioni")
+```
+
+<br><br>
+
+```{r}
+#dati senza colonna yy: applico la funzione media e mi restituisce un vettore di valori climatologici: uno per stazione
+dati %>% 
+  filter(yy>=climYS & yy<= climYE) %>% 
+    select(-yy) %>%
+	    purrr::map_df(.,.f=media,toll=6)->valoriClimatologici
+
+valoriClimatologici %>%
+  tidyr::gather(key="idstaz",val="climatologico6190") %>%
+    filter(is.na(climatologico6190)) %>%
+      nrow()->righeNA
+
+#df.mclimatol non avrà NA in quanto nel programma per il calcolo degli estremi abbiamo già eliminato le serie che hanno meno di 24 anni di dati validi nel trentennio
+if(righeNA) stop("Impossibile che ci siano stazioni con climatologico NA")
+
+purrr::map(names(valoriClimatologici),.f=function(codice){
+  
+  dati[[codice]]-valoriClimatologici[[codice]]->anom
+  tibble(yy=annoI:annoF,anom=anom) %>%
+    mutate(yy=as.integer(yy))->df
+  names(df)[2]<-codice
+  
+  df
+  
+}) %>% reduce(.f=left_join,.init=calendario_anni)->df.anomalie.ok
+
+#medie per riga: anomalia Italia anno per anno
+#Soglia: 100. Si era inizialmente deciso di tollerare il 20% di NA, ma di fatto 
+#(per questioni grafiche) Franco ha richiesto il calcolo di tutte le anomalie.
+#Solo gli anni particolarmente pieni di NA vengono annullati. QUesti anni variano
+#a seconda dell'indicatore
+apply(df.anomalie.ok %>% dplyr::select(-yy),1,FUN=media,toll=100)->anomalia.italia
+
+#annulliamo gli anni
+tibble(yy=df.anomalie.ok$yy,anom=anomalia.italia)->df.anomalia.italia
+
+write_delim(df.anomalia.italia,file=glue::glue("anom_italia_{indice}_{annoI}_{annoF}_climatol1961_1990.csv"),col_names=T,delim=";")
+write_csv(valoriClimatologici,file=glue::glue("climatologici_{indice}_climatol1961_1990.csv"),col_names=T)
+write_csv(df.anomalie.ok,file=glue::glue("anom_{indice}_{annoI}_{annoF}_climatol1961_1990.csv"),col_names=T)
+
+#calcolo del trend mediante Theil-Sen (utilizzando pre-whitening)
+zyp.zhang(df.anomalia.italia[["anom"]])->zyp.out
+names(zyp.out)->nomi.zyp
+	
+tibble(nomi.zyp,zyp.out) %>% 
+  write_delim(.,file=glue::glue("trenditalia_{indice}_{annoI}_{annoF}_climatol1961_1990.csv"),col_names=TRUE)
+```
+
+<br><br>
+
+### Mappa stazioni
+
+```{r}
+list.files(pattern=glue::glue("^ana_{indice}.csv"))->file.ana
+stopifnot(length(file.ana)==1)
+
+read_delim(file.ana,delim=";",col_names=TRUE)->ana
+```
+
+Numero stazioni che contribuiscono al calcolo dell'anomalia italian dell'indice `r indice`: `r nrow(ana)`
+
+```{r mappa,include=TRUE,fig.width=8,fig.height=8}
+leaflet(data=ana) %>%
+  setView(lng=12,lat=42,zoom=6) %>%
+  addTiles() %>%
+  addCircleMarkers(lng=~Longitude,lat=~Latitude,label = ~glue::glue("Rete: {regione} Stazione: {SiteName}"))
+
+```
+
+```{r include=TRUE}
+### grafico nuova serie omogeneizzata contro grafico vecchia serie del rapporto 2020
+list.files(pattern="^.+acmant.+csv$")->nome_vecchia_serie
+stopifnot(length(nome_vecchia_serie)==1)
+
+read_delim(nome_vecchia_serie,delim=";",col_names = TRUE) %>%
+  dplyr::select(yy,anom.originale) %>%
+  rename(old=anom.originale)->datiOld
+
+left_join(df.anomalia.italia,datiOld)->datiGrafico
+```
+
+<br><br>
+
+### Serie anomalie Italia `r indice`
+
+```{r dt,include=TRUE}
+datatable(datiGrafico %>% dplyr::arrange(desc(yy)),options=list(pageLength=30)) %>%
+  DT::formatStyle("old",backgroundColor = list(color="red"))
+```
+
+<br><br>
+
+### Serie anomalie Italia `r indice`: ranking
+
+```{r rank,include=TRUE}
+datatable(datiGrafico %>% mutate(old=rank(old,ties.method = "first"),anom=rank(anom,ties.method = "first")) %>%dplyr::arrange(desc(yy)),options=list(pageLength=30)) %>%
+  DT::formatStyle("old",backgroundColor = list(color="red"))
+```
+
+<br><br>
+
+### Grafico anomalie Italia `r indice`
+
+Nel grafico il barplot rappresenta la serie di anomalie pubblicata nel rapporto `Gli indicatori del clima in Italia nel 2020`.
+
+```{r,include=TRUE}
+label <- list(
+  formatter = htmlwidgets::JS(
+    'function(value, index){
+            return value;
+        }'
+  )
+)
+
+e_charts(data=datiGrafico,x=yy) %>% 
+  e_bar(old) %>% 
+  e_tooltip(trigger="axis",
+            formatter =htmlwidgets::JS(
+              "function(params){
+                var tp = [];
+                params.forEach(function(x){
+                  tp.push([x.seriesName, x.value].join('-'))
+                });
+                return(tp.join('<br/>'))
+              }")) %>%
+  e_x_axis(serie = yy,axisLabel=label) %>%
+  e_y_axis(name="anomalia") %>%
+  e_visual_map(dimension=2,show=FALSE,itemSymbol='none',type="piecewise",pieces=list(list(min=0,max=1000,color="firebrick"),list(min=-1000,max=0,color="blue"))) %>%
+  e_line(serie = anom,color="black") 
+
+```
+  
+
