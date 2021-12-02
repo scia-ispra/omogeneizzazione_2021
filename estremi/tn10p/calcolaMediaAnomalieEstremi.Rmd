@@ -9,6 +9,14 @@ affiliation: ISPRA
 
 Calcolo degli eventi estremi (indici ETCCDI) utilizzando il nuovo set di serie di temperatura giornaliera omogeneizzate.
 
+Nei grafici e nelle tabelle che seguono la dicitura:
+
+- `old` si riferisce ai dati utilizzati per il rapporto `Gli Indicatori del Clima in Italia nel 2020`
+
+- `raw` si riferisce al nuovo set di serie di lungo periodo pre-omogeneizzazione
+
+- `anom` si riferisce al nuovo set di serie di lungo periodo omogeneizzate
+
 ```{r intro, echo=FALSE,message=FALSE,warning=FALSE,include=FALSE,error=FALSE}
 #30 novembre 2021.
 #Questo programma calcola le anomalie per ciascuna stazione e le anomalie per l'Italia. 
@@ -173,7 +181,16 @@ read_delim(nome_vecchia_serie,delim=";",col_names = TRUE) %>%
   dplyr::select(yy,anom.originale) %>%
   rename(old=anom.originale)->datiOld
 
+### grafico nuova serie omogeneizzata contro grafico vecchia serie del rapporto 2020
+list.files(pattern="^raw_anom.+csv$")->nome_raw_serie
+stopifnot(length(nome_raw_serie)==1)
+
+read_delim(nome_raw_serie,delim=";",col_names = TRUE) %>%
+  dplyr::select(yy,anom) %>%
+  rename(raw=anom)->datiRaw
+
 left_join(df.anomalia.italia,datiOld)->datiGrafico
+left_join(datiGrafico,datiRaw)->datiGrafico
 ```
 
 <br><br>
@@ -190,7 +207,7 @@ datatable(datiGrafico %>% dplyr::arrange(desc(yy)),options=list(pageLength=30)) 
 ### Serie anomalie Italia `r indice`: ranking
 
 ```{r rank,include=TRUE}
-datatable(datiGrafico %>% mutate(old=rank(old,ties.method = "first"),anom=rank(anom,ties.method = "first")) %>%dplyr::arrange(desc(yy)),options=list(pageLength=30)) %>%
+datatable(datiGrafico %>% mutate(old=rank(old,ties.method = "first"),anom=rank(anom,ties.method = "first"),raw=rank(raw,ties.method = "first")) %>%dplyr::arrange(desc(yy)),options=list(pageLength=30)) %>%
   DT::formatStyle("old",backgroundColor = list(color="red"))
 ```
 
@@ -198,7 +215,6 @@ datatable(datiGrafico %>% mutate(old=rank(old,ties.method = "first"),anom=rank(a
 
 ### Grafico anomalie Italia `r indice`
 
-Nel grafico il barplot rappresenta la serie di anomalie pubblicata nel rapporto `Gli indicatori del clima in Italia nel 2020`.
 
 ```{r,include=TRUE}
 label <- list(
@@ -223,7 +239,8 @@ e_charts(data=datiGrafico,x=yy) %>%
   e_x_axis(serie = yy,axisLabel=label) %>%
   e_y_axis(name="anomalia") %>%
   e_visual_map(dimension=2,show=FALSE,itemSymbol='none',type="piecewise",pieces=list(list(min=0,max=1000,color="firebrick"),list(min=-1000,max=0,color="blue"))) %>%
-  e_line(serie = anom,color="black") 
+  e_line(serie = anom,color="black") %>%
+  e_line(serie=raw,color="green")
 
 ```
   
