@@ -1,0 +1,44 @@
+---
+title: Anomalia annuale e mensile di temperatura media per il 2020
+author: Guido Fioravanti
+date: "`r Sys.Date()`"
+ouput: html_document
+---
+
+```{r intro,include=FALSE,message=FALSE,echo=FALSE,warning=FALSE,error=FALSE}
+library("tidyverse")
+library("echarts4r")
+library("DT")
+
+read_delim("anom_tmean_mensileAnnuale2020.csv",delim=";",col_names=TRUE) %>%
+  mutate(anom=round(anom,2),old=round(old,2))->dati
+```
+
+Anomalia mensile e anomalie annuali di temperatura media per il 2020 (figura 3.4). 
+
+Nel grafico e nella tabella:
+
+- `anom` si riferisce alla serie di anomalia calcolata con il nuovo set di serie omogeneizzate
+
+- `old` si riferisce alla serie di temperatura pubblicata nel rapporto `Gli indicatori del clima in Italia nel 2020`
+
+```{r dt,include=TRUE,message=FALSE,echo=FALSE,warning=FALSE,error=FALSE}
+datatable(dati,options=list(pageLength=12))
+```
+
+### Anomalie di temperatura 2020
+
+```{r echart,,message=FALSE,echo=FALSE,warning=FALSE,error=FALSE}
+dati %>%
+  mutate(indice=1:14)->dati
+
+e_chart(dati,x=indice) %>%
+  e_bar(serie=old) %>%
+  e_line(serie=anom,color="black") %>%
+  e_tooltip(trigger="axis") %>%
+  e_x_axis(serie=indice,margin=1,interval=1,formatter=htmlwidgets::JS("function(value,index){
+    var etichette=['','2020','','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec',''];                                  return etichette[index];                      
+  }"),name="") %>%
+  e_y_axis(interval=1,name="°C") %>%
+  e_visual_map(seriesIndex=0,type="piecewise",pieces=list(list(min=-1000,max=0,color="blue"),list(min=0,max=1000,color="red")))
+```
