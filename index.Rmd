@@ -18,6 +18,43 @@ Risultati per la:
 - [temperatura media: anomalie menisili e annuale](./figura3.4/anomalia_media_2020_annuale_mensile.html)
 
 
+### Mappe anomalie annuali di temperatura
+
+Questi risultati confrontano le mappe pubblicate sul rapporto del clima in Italia nel 2020 con le nuove mappe:
+
+- [temperatura massima](./mappe_anomalie/tmax/mappaAnomaliaAnnualeTmax_6dicembre2021/confrontaMappe.html)
+
+- [temperatura minima](./mappe_anomalie/tmin/mappaAnomaliaAnnualeTmin_6dicembre2021/confrontaMappe.html)
+
+- [temperatura media](./mappe_anomalie/tmean/mappaAnomaliaAnnualeTmean_6dicembre/confrontaMappe.html)
+
+
+### Mappe anomalie mensili di temperatura media
+
+- [Gennaio](./mappe_anomalie/tmean/mappaAnomalieMensiliTmean_6dicembre/confrontaMappe01.html)
+
+- [Febbraio](./mappe_anomalie/tmean/mappaAnomalieMensiliTmean_6dicembre/confrontaMappe02.html)
+
+- [Marzo](./mappe_anomalie/tmean/mappaAnomalieMensiliTmean_6dicembre/confrontaMappe03.html)
+
+- [Aprile](./mappe_anomalie/tmean/mappaAnomalieMensiliTmean_6dicembre/confrontaMappe04.html)
+
+- [Maggio](./mappe_anomalie/tmean/mappaAnomalieMensiliTmean_6dicembre/confrontaMappe05.html)
+
+- [Giugno](./mappe_anomalie/tmean/mappaAnomalieMensiliTmean_6dicembre/confrontaMappe06.html)
+
+- [Luglio](./mappe_anomalie/tmean/mappaAnomalieMensiliTmean_6dicembre/confrontaMappe07.html)
+
+- [Agosto](./mappe_anomalie/tmean/mappaAnomalieMensiliTmean_6dicembre/confrontaMappe08.html)
+
+- [Settembre](./mappe_anomalie/tmean/mappaAnomalieMensiliTmean_6dicembre/confrontaMappe09.html)
+
+- [Ottobre](./mappe_anomalie/tmean/mappaAnomalieMensiliTmean_6dicembre/confrontaMappe10.html)
+
+- [Novembre](./mappe_anomalie/tmean/mappaAnomalieMensiliTmean_6dicembre/confrontaMappe11.html)
+
+- [Dicembre](./mappe_anomalie/tmean/mappaAnomalieMensiliTmean_6dicembre/confrontaMappe12.html)
+
 #### Estremi ETCCDI
 
 - [csdi](./estremi/csdi/csdi.html)

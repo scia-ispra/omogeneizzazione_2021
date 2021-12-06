@@ -1,0 +1,87 @@
+---
+title: Anomalia annuale tmin
+date: "`r Sys.Date()`"
+author: Guido Fioravanti
+output: html_document
+---
+
+```{r intro,include=FALSE,message=FALSE,warning=FALSE,echo=FALSE,error=FALSE}
+rm(list=objects())
+library("raster")
+library("tidyverse")
+library("ggspatial")
+library("tabularaster")
+library("scico")
+library("regioniItalia")
+library("patchwork")
+library("knitr")
+
+knitr::opts_chunk$set(include=TRUE,message=FALSE,warning=FALSE,echo=FALSE,error=FALSE)
+
+
+list.files(pattern="^.+MediaPesata.tif")->ffile
+stopifnot(length(ffile)==2)
+
+purrr::map(ffile,.f=raster)->listaRasters
+
+purrr::reduce(listaRasters,.f=`-`)->differenza
+abs(differenza)->differenza
+
+as_tibble(differenza,cells=TRUE) %>%
+  filter(!is.na(cellvalue))->df
+```
+
+
+
+```{r,include=FALSE}
+ggplot()+
+  ggspatial::layer_spatial(data=listaRasters[[1]])+
+  geom_sf(data=italia,fill="transparent")+
+  scale_fill_scico(palette="vik",na.value="transparent",limits=c(-3,3),breaks=seq(-3,3,by=0.25),guide=guide_colorbar(barheight = unit(8,"cm")))+
+  theme_void()+
+  ggtitle("Serie rapporto 2020")->grafico1
+
+
+ggplot()+
+  ggspatial::layer_spatial(data=listaRasters[[2]])+
+  geom_sf(data=italia,fill="transparent")+
+  scale_fill_scico(palette="vik",na.value="transparent",limits=c(-3,3),breaks=seq(-3,3,by=0.25),guide=guide_colorbar(barheight = unit(8,"cm")))+
+  theme_void()+
+  ggtitle("Serie omogeneizzate, nuove")->grafico2
+
+
+ggplot()+
+  ggspatial::layer_spatial(data=differenza)+
+  geom_sf(data=italia,fill="transparent")+
+  scale_fill_scico(palette="imola",na.value="transparent",limits=c(0,1),breaks=seq(0,1,by=0.2),guide=guide_colorbar(barheight = unit(8,"cm")))+
+  theme_void()+
+  ggtitle("Differenze assolute")->grafico3
+```
+
+### Mappe
+
+Le mappe mostrano:
+- la mappa delle anomalie pubblicata sul rapporto `Gli indicatori del clima in Italia nel 2020`
+- la mappa con le nuove serie omogeneizzate
+- la mappa delle differenze assolute tra le due mappe sopra
+
+```{r grafico,include=TRUE,fig.width=10,fig.height=10}
+print(grafico1+grafico2+grafico3+patchwork::plot_layout(ncol=2))
+```
+
+<br><br>
+
+### Differenze assolute mappa rapporto 2020 vs nuove serie omogeneizzate
+
+```{r skim}
+skimr::skim(df$cellvalue)
+```
+<br><br>
+
+### Boxplot delle differenze assolute
+
+```{r,fig.width=4,fig.height=4}
+ggplot(data=df,aes(x=1,y=cellvalue))+
+  geom_boxplot()+
+  theme_bw()
+```
