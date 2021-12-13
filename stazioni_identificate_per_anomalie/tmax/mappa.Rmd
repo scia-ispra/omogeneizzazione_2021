@@ -1,0 +1,39 @@
+---
+title: Stazioni per anomalia di temperatura massima annuale Italia
+author: Guido Fioravanti
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r intro,include=FALSE,message=FALSE,error=FALSE,warning=FALSE,echo=FALSE}
+library("tidyverse")
+library("leaflet")
+library("guido")
+library("crosstalk")
+library("DT")
+
+knitr::opts_chunk$set(include=TRUE,message=FALSE,error=FALSE,warning=FALSE,echo=FALSE)
+
+read_delim(list.files(pattern=".+_serie_selezionate_cluster_.+csv"),delim=";",col_names = TRUE,col_types = YYMMDD_TYPE)->dati
+leggi_file(pattern="^ana.+csv$",output = "_dfr",delim=";",col_names = TRUE,col_types = cols(.default = col_character(),Latitude=col_number(),Longitude=col_number()))->ana
+
+
+crosstalk::SharedData$new(ana%>% filter(id %in% names(dati)))->cross_ana
+```
+
+<br><br>
+
+Serie di lungo periodo (`r ncol(dati)-3` serie) per il calcolo dell'anomalia annuale di temperatura.
+
+```{r mappa,fig.width=8,fig.asp=1}
+leaflet(data=cross_ana) %>%
+  setView(lng=12,lat=41.5,zoom=6)%>%
+  addTiles() %>%
+  addCircleMarkers(lng=~Longitude,lat=~Latitude,label=~id,popup = ~Elevation)
+```
+
+Anagrafica delle stazioni.
+
+```{r tabella}
+datatable(cross_ana,options = list(pageLength=20))
+```

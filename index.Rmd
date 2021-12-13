@@ -5,7 +5,17 @@ author: Guido Fioravanti
 output: html_document
 ---
 
-#### Anomalie annuali di temperatura
+### Anomalie annuali di temperatura
+
+<br>
+
+Mappa delle stazioni identificate per il calcolo della serie dell'anomalia italia di:
+
+- [temperatura massima](stazioni_identificate_per_anomalie/tmax/mappa.html)
+
+- [temperatura minima](stazioni_identificate_per_anomalie/tmin/mappa.html)
+
+<hr>
 
 Risultati per la:
 
@@ -20,7 +30,9 @@ Risultati per la:
 
 <br><br>
 
-#### Anomalie annuali di temperatura (serie eobs)
+### Anomalie annuali di temperatura (serie eobs)
+
+<br>
 
 Risultati per la:
 
@@ -56,6 +68,7 @@ Questi risultati confrontano le mappe pubblicate sul rapporto del clima in Itali
 
 - [temperatura media](./mappe_anomalie/tmean/mappaAnomaliaAnnualeTmean_6dicembre/confrontaMappe.html)
 
+<br>
 
 ### Mappe anomalie mensili di temperatura media
 
@@ -83,7 +96,9 @@ Questi risultati confrontano le mappe pubblicate sul rapporto del clima in Itali
 
 - [Dicembre](./mappe_anomalie/tmean/mappaAnomalieMensiliTmean_6dicembre/confrontaMappe12.html)
 
-#### Estremi ETCCDI
+<br>
+
+### Estremi ETCCDI
 
 - [csdi](./estremi/csdi/csdi.html)
 
@@ -113,7 +128,7 @@ Questi risultati confrontano le mappe pubblicate sul rapporto del clima in Itali
 
 <br><br>
 
-#### Estremi ETCCDI (serie e-obs)
+### Estremi ETCCDI (serie e-obs)
 
 I risultati qui mostrati si riferiscono alle serie puntuali e-obs invalidate (in modo di rispecchiare l'esatta sequenza di dati validi/non-validi delle serie osservate). Le serie sono quelle indetificate per il nuovo rapporto del clima in Italia, escludendo alcune serie di tutti NA (tipo le isolette che non figurano in e-obs).
 
