@@ -18,6 +18,34 @@ Risultati per la:
 - [temperatura media: anomalie menisili e annuale](./figura3.4/anomalia_media_2020_annuale_mensile.html)
 
 
+<br><br>
+
+#### Anomalie annuali di temperatura (serie eobs)
+
+Risultati per la:
+
+- [temperatura massima](./grafici_anomalie_annuali_eobs/tmax/grafico.html)
+
+- [temperatura minima](./grafici_anomalie_annuali_eobs/tmin/grafico.html)
+
+- [temperatura media](./grafici_anomalie_annuali_eobs/tmean/grafico_tmean.html).
+
+I dati e-obs sono stati estratti dai grigliati 1961 - novembre 2018, a cui poi sono stati aggiunti i dati osservati 2019 - 2020. I dati sono stati estratti per i punti stazione individuati per il nuovo set di dati per il rapporto `Gli Indicatori del Clima in Italia`. Alcune stazioni e-obs tuttavia sono tutte NA (le isolette tipo Pantelleria non compaiono nel grigliato e-obs). Per il calcolo delle anomalie  e dei valori estremi i dati e-obs sono stati invalidati in modo che la sequenza di dati validi/dati NA corrispondesse a quella dei dati osservati.
+
+Le anomalie qui mostrate sono state calcolate seguendo le stesse procedure applicate ai dati osservati per il rapporto del clima:
+
+- sono state inizialmente calcolate le anomalie 1961-1990
+
+- le anomalie mensili sono state spazializzate mediante Thin-Plate spline
+
+- calcolate le anomalie annuali
+
+Per verificare i risultati le anomalie di temperatura annuale e-obs sono state calcolate anche senza ricorrere alla spazializzazione (risultati qui non caricati) utilizzando solo le serie puntuali (serie e-obs senza invalidare i dati, serie e-obs dopo aver invalidato i dati).
+
+Qualunque sia il procedimento adottato i risultati sono pressochè identici.
+
+<br><br>
+
 ### Mappe anomalie annuali di temperatura
 
 Questi risultati confrontano le mappe pubblicate sul rapporto del clima in Italia nel 2020 con le nuove mappe:
@@ -82,3 +110,36 @@ Questi risultati confrontano le mappe pubblicate sul rapporto del clima in Itali
 - [txx](./estremi/txx/txx.html)
 
 - [wsdi](./estremi/wsdi/wsdi.html)
+
+<br><br>
+
+#### Estremi ETCCDI (serie e-obs)
+
+I risultati qui mostrati si riferiscono alle serie puntuali e-obs invalidate (in modo di rispecchiare l'esatta sequenza di dati validi/non-validi delle serie osservate). Le serie sono quelle indetificate per il nuovo rapporto del clima in Italia, escludendo alcune serie di tutti NA (tipo le isolette che non figurano in e-obs).
+
+- [csdi](./estremi_eobs/csdi/csdi.html)
+
+- [fd](./estremi_eobs/fd/fd.html)
+
+- [su](./estremi_eobs/su/su.html)
+
+- [tn10p](./estremi_eobs/tn10p/tn10p.html)
+
+- [tn90p](./estremi_eobs/tn90p/tn90p.html)
+
+- [tnn](./estremi_eobs/tnn/tnn.html)
+
+- [tnx](./estremi_eobs/tnx/tnx.html)
+
+- [tr](./estremi_eobs/tr/tr.html)
+
+- [tx10p](./estremi_eobs/tx10p/tx10p.html)
+
+- [tx90p](./estremi_eobs/tx90p/tx90p.html)
+
+- [txn](./estremi_eobs/txn/txn.html)
+
+- [txx](./estremi_eobs/txx/txx.html)
+
+- [wsdi](./estremi_eobs/wsdi/wsdi.html)
+
