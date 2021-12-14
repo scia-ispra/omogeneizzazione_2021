@@ -1,0 +1,171 @@
+---
+title: Trends delle serie di tmin (serie omogeneizzate)
+date: "`r Sys.Date()`"
+author: Guido Fioravanti
+output: html_document
+---
+
+```{r intro,include=FALSE,message=FALSE,error=FALSE,warning=FALSE,echo=FALSE}
+library("tidyverse")
+library("guido")
+library("climatologici")
+library("zyp")
+library("leaflet")
+library("ggrepel")
+library("crosstalk")
+library("DT")
+library("echarts4r")
+
+knitr::opts_chunk$set(include=TRUE,message=FALSE,error=FALSE,warning=FALSE,echo=FALSE)
+
+
+leggi_file(pattern="^ana_.+csv$",output = "_dfr",delim=";",col_types = cols(.default=col_character(),Longitude=col_number(),Latitude=col_number())) %>% dplyr::select(-yy)->ana
+
+read_delim("tmin_serie_selezionate_cluster_analysis_tmin_1961_2020.csv",delim=";",col_types = YYMMDD_TYPE)->dati
+ClimateData(dati,param="tmin")->cdati
+aggregaCD(cdati,max.na = 10,max.size.block.na = 5,rle.check = TRUE)->mdati
+as.data.frame(mdati) %>%
+  gather(key="id",value="value",-yy,-mm) %>%
+  mutate(mm=as.integer(mm))->df_mdati
+  
+climatologiciMensili(mdati,1961,1990,6,TRUE,6) %>%
+  dplyr::select(-yy) %>%
+  gather(key="id",value="climatologico",-mm)->dfClimatologici
+
+left_join(df_mdati,dfClimatologici) %>%
+  mutate(anomalia=value-climatologico) %>%
+  dplyr::select(-value,-climatologico) %>%
+  group_by(id,yy) %>%
+  summarise(anomalia_annuale=mean(anomalia,na.rm=TRUE)) %>%
+  ungroup() %>%
+  mutate(yy=as.integer(yy)) %>%
+  spread(key=id,value=anomalia_annuale)->df_anomalieAnnuali
+
+
+
+purrr::map(df_anomalieAnnuali %>% select(-yy),.f=function(.x){
+  
+  tryCatch({
+    lm(.x~df_anomalieAnnuali$yy)->out
+    round(coefficients(out)[[2]]*100,1)
+  },error=function(e){
+    NULL
+  })
+  
+  
+}) %>%
+  compact %>%
+  as_tibble() %>%
+  gather(key="id",value="trend") %>%
+  left_join(.,ana)->dfTrend
+```
+
+### Sintesi dei trend
+
+Sintesi per cluster
+
+```{r trend_cluster}
+skimr::skim(dfTrend %>% dplyr::select(cluster,trend) %>% group_by(cluster))
+```
+
+Sintesi generale
+
+```{r trend_generale}
+skimr::skim(dfTrend$trend)
+```
+
+### Mappa dei trends (°C/100 anni)
+
+Usare la mappa o la tabella per identificare singole stazioni.
+
+```{r mappa,fig.width=8,fig.asp=1}
+crosstalk::SharedData$new(dfTrend)->cross_trends
+
+leaflet::colorNumeric(palette = scico::scico(10,palette ="roma",direction = -1),domain=seq(-6,6,by=0.5))->colori
+
+leaflet(data=cross_trends) %>%
+  setView(lng=12,lat=41.5,zoom=6) %>%
+  addTiles() %>%
+  addProviderTiles(provider="Stamen") %>%
+  addCircleMarkers(lng=~Longitude,lat=~Latitude,radius=~trend,stroke = F,weight = 0,fillColor = ~colori(trend),fillOpacity = 1,label = ~trend,popup = ~id) %>%
+  leaflet::addLegend(pal = colori,values = ~trend,opacity = 1)
+```
+
+
+
+```{r tabella}
+datatable(cross_trends,options = list(pageLength=20))
+```
+
+# Serie anomalie
+
+Andamento delle anomalie di temperatura annuali per i cluster (1 - 7). Il cluster 7 e' la Sardegna.
+
+```{r serie_anomalie,fig.width=12,fig.height=10}
+df_anomalieAnnuali %>%
+  gather(key="id",value="anomalia",-yy) %>%
+  mutate(anomalia=round(anomalia,1)) %>%
+  left_join(.,ana ) %>%
+  #filter(cluster==5) %>%
+  ggplot(aes(x=yy,y=anomalia))+
+  geom_line(aes(group=id),alpha=0.25)+
+  #geom_text_repel(aes(label=id))+
+  facet_wrap(~cluster)+
+  scale_color_discrete(guide="none")+
+  theme_bw()
+```
+
+# Trend serie anomaie annuali
+
+Trend lineari delle serie di anomalia di temperatura annuali per i cluster (1 - 7). Il cluster 7 e' la Sardegna.
+
+```{r serie_anomalie_trends,fig.width=12,fig.height=10}
+df_anomalieAnnuali %>%
+  gather(key="id",value="anomalia",-yy) %>%
+  mutate(anomalia=round(anomalia,1)) %>%
+  left_join(.,ana) %>%
+  #filter(cluster==5) %>%
+  ggplot(aes(x=yy,y=anomalia))+
+  geom_smooth(aes(group=id,color=cluster),alpha=0.25,stat="smooth",method = "lm",se = FALSE,alpha=0.25)+
+  facet_wrap(~cluster)+
+  scale_color_discrete(guide="none")+
+  theme_bw()
+```
+
+<hr>
+
+### Grafici interattivi
+
+```{r echarts,fig.width=14,fig.height=10}
+
+purrr::map(1:7,.f=function(CLUSTER){
+
+  df_anomalieAnnuali %>%
+    gather(key="id",value="anomalia",-yy) %>%
+    mutate(anomalia=round(anomalia,1)) %>%
+    left_join(.,ana ) %>%
+    filter(cluster==CLUSTER) %>%
+    group_by(id) %>%
+    e_charts(x=yy,elementId = paste0("cluster",CLUSTER)) %>%
+    e_line(serie=anomalia,emphasis=list(focus="series")) %>%
+    e_x_axis(serie=yy,formatter = htmlwidgets::JS("function(value){
+      return value;                                              
+    }")) %>%
+    e_y_axis(min=-5,max=5,interval=1) %>%
+    e_title(text=paste0("cluster",CLUSTER)) %>%
+    e_legend(show=FALSE) %>%
+    e_tooltip(trigger="item") %>%
+    e_datazoom(show=ifelse(CLUSTER==1,TRUE,FALSE))->grafico
+  
+  if(CLUSTER==7){
+    grafico %>%
+      e_connect(paste0("cluster",1:6))->grafico
+  }
+    
+  grafico
+  
+  
+})->listaGrafici
+
+e_arrange(listaGrafici[[1]],listaGrafici[[2]],listaGrafici[[3]],listaGrafici[[4]],listaGrafici[[5]],listaGrafici[[6]],listaGrafici[[7]],row=4,cols = 2)
+```

@@ -28,6 +28,19 @@ Risultati per la:
 - [temperatura media: anomalie menisili e annuale](./figura3.4/anomalia_media_2020_annuale_mensile.html)
 
 
+<hr>
+
+Stima dei trend per le serie puntuali di:
+
+- [temperatura massima (serie omogeneizzate)](./trends/tmax/mappa_dei_trends/mappaDeiTrends.html)
+
+- [temperatura massima (serie raw)](./trends/tmax/mappa_dei_trends_serie_raw/mappaDeiTrends.html)
+
+- [temperatura minima (serie omogeneizzate)](./trends/tmin/mappa_dei_trends/mappaDeiTrends.html)
+
+- [temperatura minima (serie raw)](./trends/tmin/mappa_dei_trends_serie_raw/mappaDeiTrends.html)
+
+
 <br><br>
 
 ### Anomalie annuali di temperatura (serie eobs)
