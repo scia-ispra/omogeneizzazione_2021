@@ -153,6 +153,15 @@ Questi risultati confrontano le mappe pubblicate sul rapporto del clima in Itali
 
 <br><br>
 
+### Confronto valori assoluti estremi
+
+- [su](confronto_numero_assoluto_estremi/su/confronto.html)
+
+- [fd](confronto_numero_assoluto_estremi/fd/confronto.html)
+
+
+<br><br>
+
 ### Estremi ETCCDI (serie e-obs)
 
 I risultati qui mostrati si riferiscono alle serie puntuali e-obs invalidate (in modo di rispecchiare l'esatta sequenza di dati validi/non-validi delle serie osservate). Le serie sono quelle indetificate per il nuovo rapporto del clima in Italia, escludendo alcune serie di tutti NA (tipo le isolette che non figurano in e-obs).
