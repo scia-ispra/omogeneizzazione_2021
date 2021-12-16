@@ -162,6 +162,16 @@ Questi risultati confrontano le mappe pubblicate sul rapporto del clima in Itali
 
 <br><br>
 
+
+### Mappe dei trends per le anomalie di estremi
+
+- [su (serie omogeneizzate)](trends/estremi/su/mappaDeiTrends.html)
+
+- [su (serie raw)](trends/estremi/su_raw/mappaDeiTrends.html)
+
+
+<br><br>
+
 ### Estremi ETCCDI (serie e-obs)
 
 I risultati qui mostrati si riferiscono alle serie puntuali e-obs invalidate (in modo di rispecchiare l'esatta sequenza di dati validi/non-validi delle serie osservate). Le serie sono quelle indetificate per il nuovo rapporto del clima in Italia, escludendo alcune serie di tutti NA (tipo le isolette che non figurano in e-obs).
