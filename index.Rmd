@@ -5,6 +5,13 @@ author: Guido Fioravanti
 output: html_document
 ---
 
+### Numero di breakpoints
+
+- [temperatura massima](numero_breakpoints/tmax/unisciBreakpointsClusters.html)
+
+- [temperatura minima](numero_breakpoints/tmin/unisciBreakpointsClusters.html)
+
+
 ### Mappe e valori climatologici mensili di temperatura
 
 <br>

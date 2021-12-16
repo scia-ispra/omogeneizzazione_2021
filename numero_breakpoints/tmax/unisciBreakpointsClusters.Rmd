@@ -1,0 +1,96 @@
+---
+title: Numero di breakpoints, serie tmax
+author: Guido Fioravanti
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r intro,include=FALSE,error=FALSE,warning=FALSE,message=FALSE,echo=FALSE}
+library("tidyverse")
+library("lubridate")
+library("guido")
+
+knitr::opts_chunk$set(include=TRUE,error=FALSE,warning=FALSE,message=FALSE,echo=FALSE)
+
+
+#leggo solo il numero di righe di ciascun file ovvero il numero di breakpoints
+leggi_file(pattern="^Tmax.+csv",output = "",delim=",") %>%
+  purrr::map_dbl(.f=nrow)->numero_breakpoints
+
+leggi_file(pattern="^Tmax.+csv",output = "_dfr",delim=",") %>%
+  mutate(Date=as.Date(Date)) %>%
+  mutate(yy=year(Date),mm=month(Date)) %>%
+  mutate(cluster=NA)->breaks
+
+breaks$cluster<-as.character(rep(1:7,times=numero_breakpoints))
+```
+
+Risultati per tutte le serie coinvolte nel processo di omogeneizzazione (serie di lungo e breve periodo).
+
+### Numero complessivo di breapoints 
+
+```{r}
+breaks %>% 
+  group_by(Code) %>%
+  summarise(numero_breaks_per_stazione=n()) %>%
+  ungroup()->conteggio
+
+
+skimr::skim(conteggio$numero_breaks_per_stazione)
+```
+<br>
+
+### Numero di breaks per anno
+
+```{r}
+breaks %>% 
+  group_by(yy) %>%
+  summarise(numero_breaks_per_anno=n()) %>%
+  ungroup()->conteggio
+
+table(conteggio$numero_breaks_per_anno)
+```
+
+<br>
+
+<hr>
+
+Stessa analisi ripetuta solo sui serie di lungo periodo (serie selezionate per rapporto sul clima)
+
+### Numero complessivo di breakpoints
+
+```{r}
+read_delim("tmax_serie_selezionate_cluster_analysis_tmax_1961_2020.csv",delim=";",col_names = TRUE,col_types = YYMMDD_TYPE)->dati
+
+breaks %>%
+  filter(Code %in% names(dati))->subBreaks
+
+subBreaks %>% 
+  group_by(Code) %>%
+  summarise(numero_breaks_per_stazione=n()) %>%
+  ungroup()->conteggio
+
+# 
+skimr::skim(conteggio)
+```
+
+<br>
+
+### Numero di breakpoints per anno (1961:2018)
+
+```{r}
+subBreaks %>% 
+  group_by(yy) %>%
+  summarise(numero_breaks_per_anno=n()) %>%
+  ungroup()->conteggio
+
+skimr::skim(conteggio)
+```
+
+<br>
+
+#### Numero di breakpoints per cluster
+
+```{r}
+table(subBreaks$cluster)
+```
