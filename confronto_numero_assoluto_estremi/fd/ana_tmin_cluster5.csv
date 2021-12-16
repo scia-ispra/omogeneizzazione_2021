@@ -1,0 +1,27 @@
+yy;id;regione;SiteId;cluster;SiteID;SiteName;SiteCode;Latitude;Longitude;Elevation
+2013;aeronautica_6691;aeronautica;6691;5;6691;PASSO ROLLE;160210;46.3;11.783;2006
+2013;aeronautica_6692;aeronautica;6692;5;6692;PAGANELLA;160220;46.15;11.033;2129
+2013;aeronautica_6703;aeronautica;6703;5;6703;PIAN ROSA;160520;45.933;7.7;3488
+2013;bolzano_102;bolzano;102;5;102;S.Maddalena in Casies;44500MS;46.83526049;12.24271916;1456
+2013;bolzano_110;bolzano;110;5;110;Predoi;50500MS;47.03658867;12.09912721;1515
+2013;bolzano_135;bolzano;135;5;135;La Villa in Badia Osservatore;61500BM;46.5836304;11.90707588;1398
+2013;bolzano_166;bolzano;166;5;166;Selva Gardena;73500MS;46.54555526;11.76842971;1713
+2013;bolzano_223;bolzano;223;5;223;Sesto;91500MS;46.70305366;12.34996391;1490
+2013;bolzano_23;bolzano;23;5;23;Diga di Gioveretto Osservatore;11200BM;46.50906285;10.72507183;1896
+2013;bolzano_28;bolzano;28;5;28;Vernago;15800MS;46.73565796;10.84927965;1823
+2013;bolzano_83;bolzano;83;5;83;Ridanna;34500MS;46.90908292;11.30677415;1337
+2013;bolzano_94;bolzano;94;5;94;Dobbiaco;41000MS;46.72997843;12.21915906;1219
+2013;piemonte_5630;piemonte;5630;5;5630;LAGO AGNEL;00237;45.469;7.14;2326
+2013;piemonte_5651;piemonte;5651;5;5651;ALPE DEVERO;00154;46.317;8.261;1700
+2013;trentino_6525;trentino;6525;5;6525;Careser (Diga);65;46.42264;10.699326;2600
+2013;trentino_6541;trentino;6541;5;6541;Pezze' di Moena (Diga);96;46.383662;11.664561;1205
+2013;trentino_6543;trentino;6543;5;6543;Paganella;99;46.143291;11.037444;2125
+2013;trentino_6546;trentino;6546;5;6546;Passo Rolle;103;46.297214;11.787638;1995
+2013;trentino_6547;trentino;6547;5;6547;Passo Valles;104;46.338417;11.799764;2032
+2013;trentino_6585;trentino;6585;5;6585;Pradalago Rifugio Agostini;167;46.249712;10.813874;2084
+2013;trentino_6638;trentino;6638;5;6638;Passo Tonale T0360;360;46.261915;10.635572;1880
+2013;trentino_6644;trentino;6644;5;6644;Malga Bissina;373;46.053933;10.514022;1750
+2013;valledaosta_20;valledaosta;20;5;20;Courmayeur - Mont de la Saxe;1200;45.817;6.98204;2076
+2013;valledaosta_47;valledaosta;47;5;47;Pré-Saint-Didier - Plan Praz;1500;45.7549;6.95245;2044
+2013;valledaosta_57;valledaosta;57;5;57;Valgrisenche - Menthieu;1620;45.6137;7.0525;1859
+2013;veneto_5675;veneto;5675;5;5675;Arabba;00003;46.49926;11.87637;1653

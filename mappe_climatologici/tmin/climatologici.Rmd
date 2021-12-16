@@ -1,0 +1,183 @@
+---
+title: Mappa dei valori climatologici tmin
+author: Guido Fioravanti
+date: "`r Sys.Date()`"
+output: html_document
+params:
+  PARAM: tmin
+---
+
+Valori climatologici mensili per `r params$PARAM` (serie omogeneizzate vs serie raw).
+
+```{r intro,include=FALSE,message=FALSE,warning=FALSE,echo=FALSE,error=FALSE}
+library("tidyverse")
+library("scico")
+library("guido")
+library("sf")
+library("ggrepel")
+library("regioniItalia")
+library("patchwork")
+library("leaflet")
+library("knitr")
+library("DT")
+
+knitr::opts_chunk$set(include=TRUE,message=FALSE,warning=FALSE,echo=FALSE,error=FALSE)
+
+read_delim(glue::glue("{params$PARAM}_climatologici_mensili_61_90.csv"),delim=";",col_names = TRUE)->clim
+read_delim(glue::glue("raw_{params$PARAM}_climatologici_mensili_61_90.csv"),delim=";",col_names = TRUE) %>% rename(raw_climatologico_mensile=climatologico_mensile)->rclim
+
+left_join(clim,rclim)->df
+
+
+leggi_file("^ana_.+csv",output = "_dfr",delim=";",col_names = TRUE,col_types = cols(.default = col_character(),Longitude=col_number(),Latitude=col_number()))->ana
+left_join(df,ana %>% dplyr::select(-yy))->df
+st_as_sf(df,coords=c("Longitude","Latitude"),crs=4326)->sf_df
+st_transform(sf_df,crs=32632)->utm_sf_df
+
+utm_sf_df%>%
+  mutate(mm=factor(mm,levels=1:12,ordered=TRUE)) %>%
+  mutate(climatologico_mensile=round(climatologico_mensile,1)) %>%
+  mutate(raw_climatologico_mensile=round(raw_climatologico_mensile,1)) %>%
+  filter(!is.na(climatologico_mensile))->utm_sf_df
+```
+
+```{r boxplot,fig.width=10,fig.height=5}
+utm_sf_df->copia
+st_geometry(copia)<-NULL
+ggplot(data=copia %>% dplyr::select(mm,climatologico_mensile,raw_climatologico_mensile) %>% gather(key="serie",value="value",-mm),aes(x=mm,value))+
+  geom_boxplot(aes(fill=serie))+
+  theme_bw()
+```
+
+<hr>
+
+```{r mappa_homog,fig.width=14,fig.height=10}
+purrr::map(unique(utm_sf_df$mm),.f=function(MM){
+  
+  utm_sf_df %>% filter(mm==MM)->subDati
+  
+  MAX<-30
+  MIN<-0
+  BREAKS<-5
+  if(MM %in% c(12,1,2)) {MAX<-10; MIN<- -10; BREAKS<-2}
+  if(MM %in% c(3,4,5)) {MAX<-15; MIN<- -5; BREAKS<-2.5}
+  if(MM %in% c(6,7,8)) {MAX<-20; MIN<- 10; BREAKS<-2}
+  if(MM %in% c(9,10,11)) {MAX<-15; MIN<- -5; BREAKS<-2.5}
+
+    
+  ggplot(data=subDati,)+
+  geom_sf(data=italia,fill="black")+
+  geom_point(aes(size=climatologico_mensile*sqrt(2),color=climatologico_mensile,x=st_coordinates(subDati)[,1],y=st_coordinates(subDati)[,2]))+
+  geom_text_repel(aes(label=climatologico_mensile,x=st_coordinates(subDati)[,1],y=st_coordinates(subDati)[,2]),color="red")+
+  scale_colour_scico(palette="imola",limits=c(MIN,MAX),breaks=seq(MIN,MAX,BREAKS))+
+  scale_size(guide="none")+
+  theme_void()->homog
+  
+  ggplot(data=subDati,)+
+  geom_sf(data=italia,fill="black")+
+  geom_point(aes(size=raw_climatologico_mensile*sqrt(2),color=raw_climatologico_mensile,x=st_coordinates(subDati)[,1],y=st_coordinates(subDati)[,2]))+
+  #geom_sf_text(aes(label=raw_climatologico_mensile))+
+  geom_text_repel(aes(label=raw_climatologico_mensile,x=st_coordinates(subDati)[,1],y=st_coordinates(subDati)[,2]),color="red")+
+  scale_colour_scico(palette="imola",limits=c(MIN,MAX),breaks=seq(MIN,MAX,BREAKS))+ 
+  scale_size(guide="none")+
+  theme_void()->raw
+
+  list(homog,raw)
+  
+})->listaGrafici
+
+purrr::walk(1:12,.f=function(MM){
+  
+  print(listaGrafici[[MM]][[1]]+listaGrafici[[MM]][[2]]+plot_annotation(title=glue::glue("Mese {MM}")))
+  
+
+})
+```
+
+
+```{r tabella,include=F}
+st_geometry(utm_sf_df)<-NULL
+purrr::map(1:12,.f=function(MM){
+  
+
+  datatable(utm_sf_df %>% filter(mm==MM) %>%dplyr::select(mm,id,Elevation,cluster,climatologico_mensile,raw_climatologico_mensile))
+
+})->listaTabelle
+
+```
+
+### Gennaio
+
+```{r,include=TRUE}
+listaTabelle[[1]]
+```
+
+### Febbraio
+
+```{r,include=TRUE}
+listaTabelle[[2]]
+```
+
+### Marzo
+
+```{r,include=TRUE}
+listaTabelle[[3]]
+```
+
+### Aprile
+
+```{r,include=TRUE}
+listaTabelle[[4]]
+```
+
+### Maggio
+
+```{r,include=TRUE}
+listaTabelle[[5]]
+```
+
+
+### Giugno
+
+```{r,include=TRUE}
+listaTabelle[[6]]
+```
+
+### Luglio
+
+```{r,include=TRUE}
+listaTabelle[[7]]
+```
+
+### Agosto
+
+```{r,include=TRUE}
+listaTabelle[[8]]
+```
+
+### Settembre
+
+```{r,include=TRUE}
+listaTabelle[[9]]
+```
+
+### Ottobre
+
+```{r,include=TRUE}
+listaTabelle[[10]]
+```
+
+
+### Novembre
+
+```{r,include=TRUE}
+listaTabelle[[11]]
+```
+
+### Dicembre
+
+```{r,include=TRUE}
+listaTabelle[[12]]
+```
+
+
