@@ -76,7 +76,7 @@ skimr::skim(conteggio)
 
 <br>
 
-### Numero di breakpoints per anno (1961:2018)
+### Numero di breakpoints per anno (1961:2020)
 
 ```{r}
 subBreaks %>% 

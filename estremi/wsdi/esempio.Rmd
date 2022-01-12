@@ -1,0 +1,32 @@
+---
+title: 
+output: html_document
+---
+
+```{r intro,message=FALSE,include=FALSE,warning=FALSE,error=FALSE,echo=FALSE}
+library("tidyverse")
+library("echarts4r")
+library("reactable")
+library("vroom")
+library("htmlwidgets")
+
+knitr::opts_chunk$set(message=FALSE,include=FALSE,warning=FALSE,error=FALSE,echo=FALSE)
+```
+
+```{r leggi}
+vroom("anom_italia_wsdi_1961_2020_climatol1961_1990.csv",delim=";",col_names=TRUE)->dati
+```
+
+
+```{r grafico,include=TRUE}
+e_charts(data=dati,x=yy) %>%
+  e_bar(serie=anom) %>%
+  e_tooltip(trigger = "axis",formatter=JS("function(params){
+    return '<strong>Anno</strong>: '+params[0].data.value[0]+' <br><strong>WSDI</strong>: '+params[0].data.value[1];                                        
+  }")) %>%
+  e_x_axis(serie=yy,type="value",min="1960",formatter = JS("function(value,index){
+    return value;                                                         
+  }") ) %>%
+  e_title(text="WSDI") %>%
+  e_visual_map(serie=anom,type="piecewise",pieces=JS("[{min: -Infinity,max: 0,color: '#67aaab'},{min:0,max: Infinity,color: '#c90001'}]"))
+```

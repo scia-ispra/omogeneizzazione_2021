@@ -1,0 +1,11 @@
+default:
+  param: Tmax
+  annoI: 1961
+  annoF: 2020
+  calcola.mensili: FALSE
+  percentuale.anni.validi: 0.8
+  
+
+
+
+  

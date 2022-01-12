@@ -18,8 +18,7 @@ knitr::opts_chunk$set(fig.width = 16,fig.height = 10,message = FALSE,error = FAL
 
 list.files(pattern =glue::glue("^anom_{PARAM}.+"))->ffile
 ffile[grep("acmant",ffile)]->file_old
-ffile[grep(glue::glue("cluster_{PARAM}"),ffile)]->file_cluster_param
-ffile[grep(glue::glue("cluster_tmean"),ffile)]->file_cluster_tmean
+ffile[grep("climatol",ffile)]->file_cluster_param
 
 
 read_delim(file_old,delim=";",col_names = TRUE) %>%
@@ -28,11 +27,7 @@ read_delim(file_old,delim=";",col_names = TRUE) %>%
 read_delim(file_cluster_param,delim=";",col_names = TRUE) %>%
   mutate(tipo="cluster_param")->dati_cluster_param
 
-
-read_delim(file_cluster_tmean,delim=";",col_names = TRUE) %>%
-  mutate(tipo="cluster_tmean")->dati_cluster_tmean
-
-bind_rows(dati_old,dati_cluster_param,dati_cluster_tmean) %>%
+bind_rows(dati_old,dati_cluster_param) %>%
   dplyr::select(-anomAnnuale) %>%
   mutate(colore=ifelse(anomAnnualePesata>=0,"firebrick","bluenavy")) %>%
   mutate(anomAnnualePesata=round(anomAnnualePesata,2))->dati
@@ -53,8 +48,6 @@ Nei grafici che seguono:
 - **old**: serie di temperatura pubblicata nel rapporto `Gli Indicatori del clima in Italia nel 2020`
 
 - **cluster_param**: serie di temperatura utilizzando serie giornaliere omogeneizzate dopo aver fatto una cluster analysis basata sul parametro `r PARAM`
-
-- **cluster_param**: serie di temperatura utilizzando serie giornaliere omogeneizzate dopo aver fatto una cluster analysis basata sul parametro `tmean`
 
 <br>
 
@@ -88,8 +81,7 @@ datatable(gdati,options=list(pageLength=30)) %>% DT::formatStyle("old",backgroun
 purrr::partial(.f=base::rank,ties.method="first")->myrank
 
 datatable(gdati %>% mutate(old=myrank(old),
-                           cluster_param=myrank(cluster_param),
-                           cluster_tmean=myrank(cluster_tmean)),options=list(pageLength=30)) %>% DT::formatStyle("old",backgroundColor = "#C3C3C3")
+                           cluster_param=myrank(cluster_param)),options=list(pageLength=30)) %>% DT::formatStyle("old",backgroundColor = "#C3C3C3")
 ```
 
 <br>
@@ -119,7 +111,6 @@ label <- list(
 e_charts(data=sdati ,x=yy) %>% 
   e_bar(old) %>% 
   e_line(serie = cluster_param) %>%
-  e_line(serie=cluster_tmean) %>%
   e_tooltip(trigger="axis",
             formatter =htmlwidgets::JS(
               "function(params){

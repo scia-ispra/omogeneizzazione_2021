@@ -5,6 +5,10 @@ author: Guido Fioravanti
 output: html_document
 ---
 
+Le stazioni selezionate distano fra di loro almeno 10 km e distano in quota non meno di 500 metri. Quando una stazione regionale dista meno di 10 km da una stazione dell'aeronautica, la stazione regionale viene eliminata. Quando due stazioni della stessa rete (regionale o aeronautica) distano meno di 10 km la priorià viene data alla serie omogeneizzata con rmse minore rispetto alla propria serie raw e con trend lineare piu' vicino al trend della propria serie raw.
+
+I codici delle stazioni limitrofe di Tmax e Tmin sono stati raccolti in un unico file. Questi codici sono stati utilizzati per eliminare dalle serie omogeneizzate di Tmax e Tmin le serie che distano meno di 10 km e distano in quota meno di 500 metri.
+
 ```{r intro,include=FALSE,message=FALSE,error=FALSE,warning=FALSE,echo=FALSE}
 library("tidyverse")
 library("guido")

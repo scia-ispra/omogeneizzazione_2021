@@ -32,12 +32,22 @@ creaCalendario(annoI,annoF) %>%
 
 nrow(calendario_anni)*eget("percentuale.anni.validi")->numeroAnniValidi
 
+
+#leggo dati giornalieri di tmax e tmin, interseco i codici stazione e utilizzo solo le stazioni comuni a Tmax e Tmin per il calcolo degli estremi
+read_delim("Tmax.csv",delim=";",col_names = TRUE,col_types =YYMMDD_TYPE)->temp_tmax
+read_delim("Tmin.csv",delim=";",col_names = TRUE,col_types =YYMMDD_TYPE)->temp_tmin
+
+base::intersect(names(temp_tmax),names(temp_tmin))->codici_comuni
+stopifnot(length(codici_comuni)!=0)
+
 #file dati con le serie omogeneizzate
 list.files(pattern=glue::glue("^{PARAM}.csv$"))->file.dati
 stopifnot(length(file.dati)==1)
 
 read_delim(file.dati,delim=";",col_names = TRUE,col_types =YYMMDD_TYPE) %>% 
   filter(yy>=annoI & yy<=annoF)->dati
+
+dati[,names(dati) %in% codici_comuni]->dati
 
 list.files(pattern = glue::glue("^anagrafica.{tolower(PARAM)}.csv$"))->file.ana
 read_delim(file.ana,delim=";",col_names = TRUE)->ana
