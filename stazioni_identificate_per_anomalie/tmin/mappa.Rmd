@@ -14,7 +14,7 @@ library("DT")
 
 knitr::opts_chunk$set(include=TRUE,message=FALSE,error=FALSE,warning=FALSE,echo=FALSE)
 
-read_delim(list.files(pattern=".+_serie_selezionate_cluster_.+csv"),delim=";",col_names = TRUE,col_types = YYMMDD_TYPE)->dati
+read_delim(list.files(pattern=".+serieMensili.+csv"),delim=";",col_names = TRUE,col_types = YYMMDD_TYPE)->dati
 leggi_file(pattern="^ana.+csv$",output = "_dfr",delim=";",col_names = TRUE,col_types = cols(.default = col_character(),Latitude=col_number(),Longitude=col_number()))->ana
 
 

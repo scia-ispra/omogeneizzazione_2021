@@ -1,0 +1,126 @@
+---
+title: Anomalie annuali di temperatura massima
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r intro,include=FALSE,warning=FALSE,message=FALSE,echo=FALSE}
+rm(list=objects())
+library("tidyverse")
+library("DT")
+library("knitr")
+library("echarts4r")
+
+
+PARAM<-c("tmax","tmin","tmean")[3]
+
+knitr::opts_chunk$set(fig.width = 16,fig.height = 10,message = FALSE,error = FALSE,warning = FALSE,echo=FALSE)
+
+list.files(pattern =glue::glue("^anom_{PARAM}.+"))->ffile
+ffile[grep("acmant",ffile)]->file_old
+ffile[grep("climatol",ffile)]->file_cluster_param
+
+
+read_delim(file_old,delim=";",col_names = TRUE) %>%
+  mutate(tipo="old")->dati_old
+
+read_delim(file_cluster_param,delim=";",col_names = TRUE) %>%
+  mutate(tipo="cluster_param")->dati_cluster_param
+
+bind_rows(dati_old,dati_cluster_param) %>%
+  dplyr::select(-anomAnnuale) %>%
+  mutate(colore=ifelse(anomAnnualePesata>=0,"firebrick","bluenavy")) %>%
+  mutate(anomAnnualePesata=round(anomAnnualePesata,2))->dati
+
+dati %>%
+  dplyr::select(-colore) %>%
+  spread(key=tipo,value=anomAnnualePesata)->sdati
+
+
+```
+
+<br>
+
+**Verifica delle serie di anomalia annuale di temperatura `r ifelse(PARAM=="tmax","massima","minima")`.**
+
+Nei grafici che seguono:
+
+- **old**: serie di temperatura pubblicata nel rapporto `Gli Indicatori del clima in Italia nel 2020`
+
+- **cluster_param**: serie di temperatura utilizzando serie giornaliere omogeneizzate dopo aver fatto una cluster analysis basata sul parametro `r PARAM`
+
+<br>
+
+L'omogeneizzazione e' stata svolta mediante il pacchetto `Climatol` su serie giornaliere clusterizzate in base al parametro`r `PARAM` e in base al parametro `tmean`. In entrambi i casi la cluster analysis ha portato all'identificazione di sei clusters. Qui di seguito vengono confrontati i dati pubblicati sul rapporto `Gli Indicatori del Clima nel 2020` con i risultati dell'omogeneizzazione utilizzando i due diversi criteri di cluster analysis.
+
+<br>
+
+
+
+
+<br>
+
+### Tabella con valori di anomalia annuale
+
+```{r tabella,include=TRUE}
+
+dati %>% dplyr::select(-colore) %>% mutate(anomAnnualePesata=round(anomAnnualePesata,2)) %>% spread(key=tipo,value=anomAnnualePesata) %>% arrange(desc(yy)) %>% rename(Anno=yy)->gdati
+
+datatable(gdati,options=list(pageLength=30)) %>% DT::formatStyle("old",backgroundColor = "#C3C3C3")
+```
+
+
+<br>
+
+### Ranking dei valori di anomalia annuale
+
+<br>
+
+```{r}
+
+purrr::partial(.f=base::rank,ties.method="first")->myrank
+
+datatable(gdati %>% mutate(old=myrank(old),
+                           cluster_param=myrank(cluster_param)),options=list(pageLength=30)) %>% DT::formatStyle("old",backgroundColor = "#C3C3C3")
+```
+
+<br>
+
+### Grafico delle serie delle anomalie annuali
+
+PS: grafico alla fine per evitare problemi tra `echarts4r` e `DT`.
+
+```{r grafico,include=TRUE}
+# ggplot(data=dati %>% dplyr::filter(tipo=="old"),aes(x=yy,y=anomAnnualePesata))+
+#   geom_bar(stat = stat("identity"),aes(fill=colore),alpha=0.5)+
+#   geom_line(data=dati %>% filter(tipo!="old"),aes(group=tipo),lty=2)+
+#   scale_fill_manual(guide=NULL,values = c("lightblue","firebrick"))+
+#   scale_linetype()+
+#   ylab("°C")+
+#   xlab("")+
+#   theme_bw()
+
+label <- list(
+    formatter = htmlwidgets::JS(
+        'function(value, index){
+            return value;
+        }'
+    )
+)
+
+e_charts(data=sdati ,x=yy) %>% 
+  e_bar(old) %>% 
+  e_line(serie = cluster_param) %>%
+  e_tooltip(trigger="axis",
+            formatter =htmlwidgets::JS(
+              "function(params){
+                var tp = [];
+                params.forEach(function(x){
+                  tp.push([x.seriesName, x.value].join('-'))
+                });
+                return(tp.join('<br/>'))
+              }")) %>%
+  e_x_axis(serie = yy,axisLabel=label) %>%
+  e_y_axis(name="°C") %>%
+  e_visual_map(type="piecewise",pieces=list(list(gt=0,color="firebrick"),list(lte=0,color="blue")))
+```

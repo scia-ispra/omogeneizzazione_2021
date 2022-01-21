@@ -57,39 +57,39 @@ Stima dei trend per le serie puntuali di:
 
 Questi risultati confrontano le mappe pubblicate sul rapporto del clima in Italia nel 2020 con le nuove mappe:
 
-- [temperatura massima](./mappe_anomalie/tmax/mappaAnomaliaAnnualeTmax_12gennaio2022/confrontaMappe.html)
+- [temperatura massima](./mappe_anomalie/tmax/mappaAnomaliaAnnualeTmax/confrontaMappe.html)
 
-- [temperatura minima](./mappe_anomalie/tmin/mappaAnomaliaAnnualeTmin_12gennaio2022/confrontaMappe.html)
+- [temperatura minima](./mappe_anomalie/tmin/mappaAnomaliaAnnualeTmin/confrontaMappe.html)
 
-- [temperatura media](./mappe_anomalie/tmean/mappaAnomaliaAnnualeTmean_12gennaio2022/confrontaMappe.html)
+- [temperatura media](./mappe_anomalie/tmean/mappaAnomaliaAnnualeTmean/confrontaMappe.html)
 
 <br>
 
 ### Mappe anomalie mensili di temperatura media
 
-- [Gennaio](./mappe_anomalie/tmean/mappaAnomalieMensiliTmean_12gennaio2022/confrontaMappe01.html)
+- [Gennaio](./mappe_anomalie/tmean/mappaAnomalieMensiliTmean/confrontaMappe01.html)
 
-- [Febbraio](./mappe_anomalie/tmean/mappaAnomalieMensiliTmean_12gennaio2022/confrontaMappe02.html)
+- [Febbraio](./mappe_anomalie/tmean/mappaAnomalieMensiliTmean/confrontaMappe02.html)
 
-- [Marzo](./mappe_anomalie/tmean/mappaAnomalieMensiliTmean_12gennaio2022/confrontaMappe03.html)
+- [Marzo](./mappe_anomalie/tmean/mappaAnomalieMensiliTmean/confrontaMappe03.html)
 
-- [Aprile](./mappe_anomalie/tmean/mappaAnomalieMensiliTmean_12gennaio2022/confrontaMappe04.html)
+- [Aprile](./mappe_anomalie/tmean/mappaAnomalieMensiliTmean/confrontaMappe04.html)
 
-- [Maggio](./mappe_anomalie/tmean/mappaAnomalieMensiliTmean_12gennaio2022/confrontaMappe05.html)
+- [Maggio](./mappe_anomalie/tmean/mappaAnomalieMensiliTmean/confrontaMappe05.html)
 
-- [Giugno](./mappe_anomalie/tmean/mappaAnomalieMensiliTmean_12gennaio2022/confrontaMappe06.html)
+- [Giugno](./mappe_anomalie/tmean/mappaAnomalieMensiliTmean/confrontaMappe06.html)
 
-- [Luglio](./mappe_anomalie/tmean/mappaAnomalieMensiliTmean_12gennaio2022/confrontaMappe07.html)
+- [Luglio](./mappe_anomalie/tmean/mappaAnomalieMensiliTmean/confrontaMappe07.html)
 
-- [Agosto](./mappe_anomalie/tmean/mappaAnomalieMensiliTmean_12gennaio2022/confrontaMappe08.html)
+- [Agosto](./mappe_anomalie/tmean/mappaAnomalieMensiliTmean/confrontaMappe08.html)
 
-- [Settembre](./mappe_anomalie/tmean/mappaAnomalieMensiliTmean_12gennaio2022/confrontaMappe09.html)
+- [Settembre](./mappe_anomalie/tmean/mappaAnomalieMensiliTmean/confrontaMappe09.html)
 
-- [Ottobre](./mappe_anomalie/tmean/mappaAnomalieMensiliTmean_12gennaio2022/confrontaMappe10.html)
+- [Ottobre](./mappe_anomalie/tmean/mappaAnomalieMensiliTmean/confrontaMappe10.html)
 
-- [Novembre](./mappe_anomalie/tmean/mappaAnomalieMensiliTmean_12gennaio2022/confrontaMappe11.html)
+- [Novembre](./mappe_anomalie/tmean/mappaAnomalieMensiliTmean/confrontaMappe11.html)
 
-- [Dicembre](./mappe_anomalie/tmean/mappaAnomalieMensiliTmean_12gennaio2022/confrontaMappe12.html)
+- [Dicembre](./mappe_anomalie/tmean/mappaAnomalieMensiliTmean/confrontaMappe12.html)
 
 <br>
 

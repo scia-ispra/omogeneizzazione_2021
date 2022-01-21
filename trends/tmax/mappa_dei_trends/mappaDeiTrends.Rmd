@@ -25,7 +25,7 @@ knitr::opts_chunk$set(include=TRUE,message=FALSE,error=FALSE,warning=FALSE,echo=
 
 leggi_file(pattern="^ana_.+csv$",output = "_dfr",delim=";",col_types = cols(.default=col_character(),Longitude=col_number(),Latitude=col_number())) %>% dplyr::select(-yy)->ana
 
-read_delim("tmax_serie_selezionate_cluster_analysis_tmax_1961_2020.csv",delim=";",col_types = YYMMDD_TYPE)->dati
+read_delim("intersected_tmax_tmintmax_serie_selezionate_cluster_analysis_tmax_1961_2020.csv",delim=";",col_types = YYMMDD_TYPE)->dati
 ClimateData(dati,param="tmax")->cdati
 aggregaCD(cdati,max.na = 10,max.size.block.na = 5,rle.check = TRUE)->mdati
 as.data.frame(mdati) %>%

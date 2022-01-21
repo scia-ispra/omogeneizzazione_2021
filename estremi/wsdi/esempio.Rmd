@@ -1,22 +1,28 @@
 ---
-title: 
-output: html_document
+title: Warm Spell Duration Index
+output: 
+  prettydoc::html_pretty:
+    theme: leonids
+    css: style.css
 ---
 
 ```{r intro,message=FALSE,include=FALSE,warning=FALSE,error=FALSE,echo=FALSE}
 library("tidyverse")
 library("echarts4r")
 library("reactable")
+library("reactablefmtr")
 library("vroom")
 library("htmlwidgets")
+library("htmltools")
+library("prettydoc")
 
 knitr::opts_chunk$set(message=FALSE,include=FALSE,warning=FALSE,error=FALSE,echo=FALSE)
 ```
 
 ```{r leggi}
-vroom("anom_italia_wsdi_1961_2020_climatol1961_1990.csv",delim=";",col_names=TRUE)->dati
+vroom("anom_italia_wsdi_1961_2020_climatol1961_1990.csv",delim=";",col_names=TRUE) %>%
+  mutate(anom=round(anom,1))->dati
 ```
-
 
 ```{r grafico,include=TRUE}
 e_charts(data=dati,x=yy) %>%
@@ -24,9 +30,46 @@ e_charts(data=dati,x=yy) %>%
   e_tooltip(trigger = "axis",formatter=JS("function(params){
     return '<strong>Anno</strong>: '+params[0].data.value[0]+' <br><strong>WSDI</strong>: '+params[0].data.value[1];                                        
   }")) %>%
-  e_x_axis(serie=yy,type="value",min="1960",formatter = JS("function(value,index){
+  e_x_axis(
+    serie=yy,
+    interval=5,
+    formatter = JS("function(value,index){
     return value;                                                         
-  }") ) %>%
-  e_title(text="WSDI") %>%
-  e_visual_map(serie=anom,type="piecewise",pieces=JS("[{min: -Infinity,max: 0,color: '#67aaab'},{min:0,max: Infinity,color: '#c90001'}]"))
+    }"),
+    min=1961,
+    min=JS("function(value){
+    console.log('ciao');
+      return value.min-1;       
+    }"),
+    max=2020,
+    max=JS("function(value){","return value.max+1;","}")) %>%
+  e_title(text="") %>%
+  e_visual_map(serie=anom,type="piecewise",pieces=JS("[{min: -Infinity,max: 0,color: '#67aaab'},{min:0,max: Infinity,color: '#c90001'}]"),showLabel=FALSE,show=FALSE) %>%
+  e_legend(show=FALSE)
+```
+
+```{r testo,include=TRUE}
+tags$div(
+  style="margin-top: 60px; margin-bottom: 60px;",
+  tags$p("L'indicatore descrive la tendenza dei fenomeni di caldo intenso in Italia.
+Un’onda di calore è un evento della durata di almeno 6 giorni consecutivi nei quali la temperatura massima è superiore al 90° percentile della distribuzione delle temperature massime giornaliere nello stesso periodo dell’anno sul trentennio climatologico. L'indicatore conta il numero dei giorni caratterizzati da un’onda di calore, così definita, in un anno.
+Si evidenzia l'aumento notevole delle onde di calore a partire dagli anni '80, in particolare nel 2019 è stato osservato un incremento di circa 29 giorni con onde di calore rispetto al valore medio calcolato nel trentennio di riferimento (1961-1990).",style="color: #333333;"))
+```
+
+
+```{r tabella,include=TRUE}
+tags$div(
+  style="margin-top:60px",
+  tags$div(
+    style="padding-left: 100px; padding-right: 100px;",
+    reactable(dati,
+              defaultPageSize = 20,
+              bordered = TRUE,
+              striped = TRUE,
+              defaultSorted = "yy",
+              outlined = TRUE,
+              defaultColDef = colDef(defaultSortOrder = "desc",align = "center"),
+              columns = list(anom=colDef(name="Anomalia 1961 - 1990"),yy=colDef(name="Anno",filterable = TRUE)))
+  )
+)
 ```

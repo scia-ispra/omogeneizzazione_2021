@@ -1,5 +1,5 @@
 default:
-  param: Tmin
+  param: Tmax
   annoI: 1961
   annoF: 2020
   calcola.mensili: FALSE

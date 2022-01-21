@@ -1,0 +1,198 @@
+
+R version 4.0.4 (2021-02-15) -- "Lost Library Book"
+Copyright (C) 2021 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> rm(list=objects())
+> 
+> basename(getwd())->indice
+> rmarkdown::render(input ="calcolaMediaAnomalieEstremi.Rmd",output_file=paste0(indice,".html"))
+
+
+processing file: calcolaMediaAnomalieEstremi.Rmd
+  |                                                                              |                                                                      |   0%  |                                                                              |...                                                                   |   5%
+   inline R code fragments
+
+  |                                                                              |.......                                                               |  10%
+label: intro (with options) 
+List of 5
+ $ echo   : logi FALSE
+ $ message: logi FALSE
+ $ warning: logi FALSE
+ $ include: logi FALSE
+ $ error  : logi FALSE
+
+Loading required package: Kendall
+── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──
+✔ ggplot2 3.3.5     ✔ purrr   0.3.4
+✔ tibble  3.1.6     ✔ dplyr   1.0.7
+✔ tidyr   1.1.4     ✔ stringr 1.4.0
+✔ readr   2.1.1     ✔ forcats 0.5.1
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+  |                                                                              |..........                                                            |  14%
+  ordinary text without R code
+
+  |                                                                              |.............                                                         |  19%
+label: skim (with options) 
+List of 1
+ $ include: logi TRUE
+
+  |                                                                              |.................                                                     |  24%
+  ordinary text without R code
+
+  |                                                                              |....................                                                  |  29%
+label: numeroStazioni (with options) 
+List of 1
+ $ include: logi TRUE
+
+  |                                                                              |.......................                                               |  33%
+  ordinary text without R code
+
+  |                                                                              |...........................                                           |  38%
+label: unnamed-chunk-1
+Joining, by = "yy"
+Joining, by = "yy"
+Joining, by = "yy"
+Joining, by = "yy"
+Joining, by = "yy"
+Joining, by = "yy"
+Joining, by = "yy"
+Joining, by = "yy"
+Joining, by = "yy"
+Joining, by = "yy"
+Joining, by = "yy"
+Joining, by = "yy"
+Joining, by = "yy"
+Joining, by = "yy"
+Joining, by = "yy"
+Joining, by = "yy"
+Joining, by = "yy"
+Joining, by = "yy"
+Joining, by = "yy"
+Joining, by = "yy"
+Joining, by = "yy"
+Joining, by = "yy"
+Joining, by = "yy"
+Joining, by = "yy"
+Joining, by = "yy"
+Joining, by = "yy"
+Joining, by = "yy"
+Joining, by = "yy"
+Joining, by = "yy"
+Joining, by = "yy"
+Joining, by = "yy"
+Joining, by = "yy"
+Joining, by = "yy"
+Joining, by = "yy"
+Joining, by = "yy"
+Joining, by = "yy"
+Joining, by = "yy"
+Joining, by = "yy"
+Joining, by = "yy"
+Joining, by = "yy"
+Joining, by = "yy"
+Joining, by = "yy"
+Joining, by = "yy"
+Joining, by = "yy"
+Joining, by = "yy"
+Joining, by = "yy"
+  |                                                                              |..............................                                        |  43%
+  ordinary text without R code
+
+  |                                                                              |.................................                                     |  48%
+label: unnamed-chunk-2
+Rows: 46 Columns: 11
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ";"
+chr (4): id, regione, SiteName, SiteCode
+dbl (7): yy, SiteId, cluster, SiteID, Latitude, Longitude, Elevation
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+  |                                                                              |.....................................                                 |  52%
+   inline R code fragments
+
+  |                                                                              |........................................                              |  57%
+label: mappa (with options) 
+List of 3
+ $ include   : logi TRUE
+ $ fig.width : num 8
+ $ fig.height: num 8
+
+  |                                                                              |...........................................                           |  62%
+  ordinary text without R code
+
+  |                                                                              |...............................................                       |  67%
+label: unnamed-chunk-3 (with options) 
+List of 1
+ $ include: logi TRUE
+
+Rows: 60 Columns: 3
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ";"
+dbl (3): yy, anom.originale, anom
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 60 Columns: 2
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ";"
+dbl (2): yy, anom
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Joining, by = "yy"
+Joining, by = "yy"
+  |                                                                              |..................................................                    |  71%
+   inline R code fragments
+
+  |                                                                              |.....................................................                 |  76%
+label: dt (with options) 
+List of 1
+ $ include: logi TRUE
+
+  |                                                                              |.........................................................             |  81%
+   inline R code fragments
+
+  |                                                                              |............................................................          |  86%
+label: rank (with options) 
+List of 1
+ $ include: logi TRUE
+
+  |                                                                              |...............................................................       |  90%
+   inline R code fragments
+
+  |                                                                              |...................................................................   |  95%
+label: unnamed-chunk-4 (with options) 
+List of 1
+ $ include: logi TRUE
+
+  |                                                                              |......................................................................| 100%
+  ordinary text without R code
+
+
+output file: calcolaMediaAnomalieEstremi.knit.md
+
+/usr/bin/pandoc +RTS -K512m -RTS calcolaMediaAnomalieEstremi.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output tr.html --lua-filter /home/guido/R/x86_64-pc-linux-gnu-library/4.0/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /home/guido/R/x86_64-pc-linux-gnu-library/4.0/rmarkdown/rmarkdown/lua/latex-div.lua --self-contained --variable bs3=TRUE --standalone --section-divs --template /home/guido/R/x86_64-pc-linux-gnu-library/4.0/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --variable theme=bootstrap --include-in-header /tmp/RtmpoA5y8r/rmarkdown-str3e2fb1b50a960.html --mathjax --variable 'mathjax-url:https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' 
+
+Output created: tr.html
+> 
+> proc.time()
+   user  system elapsed 
+  3.411   0.136   3.563 
