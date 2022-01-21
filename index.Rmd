@@ -93,7 +93,7 @@ Questi risultati confrontano le mappe pubblicate sul rapporto del clima in Itali
 
 <br>
 
-### Estremi ETCCDI
+### Estremi
 
 - [csdi](./estremi/csdi/csdi.html)
 
