@@ -1,0 +1,87 @@
+---
+title: Anomalie annuali di temperatura minima
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r intro,include=FALSE,warning=FALSE,message=FALSE,echo=FALSE}
+rm(list=objects())
+library("tidyverse")
+library("DT")
+library("knitr")
+library("echarts4r")
+
+
+PARAM<-c("tmax","tmin")[2]
+
+knitr::opts_chunk$set(fig.width = 16,fig.height = 10,message = FALSE,error = FALSE,warning = FALSE,echo=FALSE)
+
+list.files(pattern =glue::glue("^anom_{PARAM}.+"))->ffile
+
+
+read_delim(ffile,delim=";",col_names = TRUE) %>%
+  mutate(tipo="anom")->dati
+
+dati %>%
+  mutate(colore=ifelse(anomAnnualePesata>=0,"firebrick","bluenavy")) %>%
+  mutate(anomAnnualePesata=round(anomAnnualePesata,2))->dati
+
+```
+
+<br>
+
+
+### Tabella con valori di anomalia annuale
+
+```{r tabella,include=TRUE}
+
+dati %>% mutate(anomAnnualePesata=round(anomAnnualePesata,2)) %>% arrange(desc(yy)) %>% rename(Anno=yy)->gdati
+
+datatable(gdati %>% dplyr::select(Anno,anomAnnualePesata),options=list(pageLength=30))
+```
+
+
+<br>
+
+### Ranking dei valori di anomalia annuale
+
+<br>
+
+```{r}
+
+purrr::partial(.f=base::rank,ties.method="first")->myrank
+
+datatable(gdati %>% mutate(anomAnnualePesata=myrank(anomAnnualePesata))%>% dplyr::select(Anno,anomAnnualePesata),options=list(pageLength=30)) 
+```
+
+<br>
+
+### Grafico delle serie delle anomalie annuali
+
+PS: grafico alla fine per evitare problemi tra `echarts4r` e `DT`.
+
+```{r grafico,include=TRUE}
+
+label <- list(
+    formatter = htmlwidgets::JS(
+        'function(value, index){
+            return value;
+        }'
+    )
+)
+
+e_charts(data=dati ,x=yy) %>% 
+  e_bar(anomAnnualePesata) %>% 
+  e_tooltip(trigger="axis",
+            formatter =htmlwidgets::JS(
+              "function(params){
+                var tp = [];
+                params.forEach(function(x){
+                  tp.push([x.seriesName, x.value].join('-'))
+                });
+                return(tp.join('<br/>'))
+              }")) %>%
+  e_x_axis(serie = yy,axisLabel=label) %>%
+  e_y_axis(name="°C") %>%
+  e_visual_map(type="piecewise",pieces=list(list(gt=0,color="firebrick"),list(lte=0,color="blue")))
+```

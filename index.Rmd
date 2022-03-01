@@ -29,6 +29,14 @@ Serie anomalie annuali Italia:
 
 - [temperatura media: anomalie menisili e annuale](./figura3.4/anomalia_media_2020_annuale_mensile.html)
 
+Serie anomalie annuali Italia (anomalie 1991-2020):
+
+- [temperatura massima](./grafici_anomalie_annuali/tmax_anom_1991_2020/grafico.html)
+
+- [temperatura minima](./grafici_anomalie_annuali/tmin_anom_1991_2020/grafico.html)
+
+- [temperatura media](./grafici_anomalie_annuali/tmean_anom_1991_2020/grafico.html)
+
 
 <hr>
 
