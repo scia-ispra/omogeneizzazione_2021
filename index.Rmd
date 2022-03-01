@@ -5,13 +5,7 @@ author: Guido Fioravanti
 output: html_document
 ---
 
-### Numero di breakpoints
-
-- [temperatura massima](numero_breakpoints/tmax/unisciBreakpointsClusters.html)
-
-- [temperatura minima](numero_breakpoints/tmin/unisciBreakpointsClusters.html)
-
-
+Revisione delle serie omogeneizzate (includendo anche le serie della Sardegna).
 
 ### Anomalie annuali di temperatura
 
@@ -25,13 +19,13 @@ Mappa delle stazioni identificate per il calcolo della serie dell'anomalia itali
 
 <hr>
 
-Risultati per la:
+Serie anomalie annuali Italia:
 
 - [temperatura massima](./grafici_anomalie_annuali/tmax/grafico.html)
 
 - [temperatura minima](./grafici_anomalie_annuali/tmin/grafico.html)
 
-- [temperatura media](./grafici_anomalie_annuali/tmean/grafico_tmean.html).
+- [temperatura media](./grafici_anomalie_annuali/tmean/grafico.html)
 
 - [temperatura media: anomalie menisili e annuale](./figura3.4/anomalia_media_2020_annuale_mensile.html)
 

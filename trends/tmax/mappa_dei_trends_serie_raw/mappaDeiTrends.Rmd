@@ -1,5 +1,5 @@
 ---
-title: Trends delle serie di tmax (serie omogeneizzate)
+title: Trends delle serie di tmax (serie raw)
 date: "`r Sys.Date()`"
 author: Guido Fioravanti
 output: html_document
@@ -25,7 +25,7 @@ knitr::opts_chunk$set(include=TRUE,message=FALSE,error=FALSE,warning=FALSE,echo=
 
 leggi_file(pattern="^ana_.+csv$",output = "_dfr",delim=";",col_types = cols(.default=col_character(),Longitude=col_number(),Latitude=col_number())) %>% dplyr::select(-yy)->ana
 
-read_delim("raw_intersected_tmax_tmintmax_serie_selezionate_cluster_analysis_tmax_1961_2020.csv",delim=";",col_types = YYMMDD_TYPE)->dati
+read_delim("raw_intersected_tmax_tmintmax_serie_selezionate_cluster_analysis_tmax_1961_2020_senza_limitrofe.csv",delim=";",col_types = YYMMDD_TYPE)->dati
 ClimateData(dati,param="tmax")->cdati
 aggregaCD(cdati,max.na = 10,max.size.block.na = 5,rle.check = TRUE)->mdati
 as.data.frame(mdati) %>%
@@ -141,14 +141,19 @@ df_anomalieAnnuali %>%
 ### Grafici interattivi
 
 ```{r echarts,fig.width=14,fig.height=10}
+c(2,3,4,5,6,10,11,12,13,14,15,1,16,17)->listaClusters
 
-purrr::map(1:7,.f=function(CLUSTER){
+purrr::map(listaClusters,.f=function(CLUSTER){
 
   df_anomalieAnnuali %>%
     gather(key="id",value="anomalia",-yy) %>%
     mutate(anomalia=round(anomalia,1)) %>%
     left_join(.,ana ) %>%
-    filter(cluster==CLUSTER) %>%
+    filter(cluster==CLUSTER)->temp 
+  
+  if(nrow(temp)==0) return()
+  
+  temp %>%
     group_by(id) %>%
     e_charts(x=yy,elementId = paste0("cluster",CLUSTER)) %>%
     e_line(serie=anomalia,emphasis=list(focus="series")) %>%
@@ -161,9 +166,9 @@ purrr::map(1:7,.f=function(CLUSTER){
     e_tooltip(trigger="item") %>%
     e_datazoom(show=ifelse(CLUSTER==1,TRUE,FALSE))->grafico
   
-  if(CLUSTER==7){
+  if(CLUSTER==max(listaClusters)){
     grafico %>%
-      e_connect(paste0("cluster",1:6))->grafico
+      e_connect(paste0("cluster",listaClusters[1:(length(listaClusters)-1)]))->grafico
   }
     
   grafico
@@ -171,5 +176,7 @@ purrr::map(1:7,.f=function(CLUSTER){
   
 })->listaGrafici
 
-e_arrange(listaGrafici[[1]],listaGrafici[[2]],listaGrafici[[3]],listaGrafici[[4]],listaGrafici[[5]],listaGrafici[[6]],listaGrafici[[7]],row=4,cols = 2)
+#e_arrange(compact(listaGrafici))
+
+e_arrange(listaGrafici[[1]],listaGrafici[[2]],listaGrafici[[3]],listaGrafici[[4]],listaGrafici[[5]],listaGrafici[[6]],listaGrafici[[7]],listaGrafici[[8]],listaGrafici[[9]],listaGrafici[[10]],listaGrafici[[11]],row=7,cols = 2)
 ```
